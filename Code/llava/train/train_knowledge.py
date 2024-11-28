@@ -661,7 +661,6 @@ def preprocess(
     if conversation_lib.default_conversation.version == "mpt":
         return preprocess_mpt(sources, tokenizer,triple_prompt)
     # add end signal and concatenate together
-    # 拼接对话内容和三元组
     conversations = []
     for source in sources:
         header = f"{conversation_lib.default_conversation.system}\n\n"
@@ -842,6 +841,7 @@ def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer,
     return dict(train_dataset=train_dataset,
                 eval_dataset=None,
                 data_collator=data_collator)
+
 
 
 def train():

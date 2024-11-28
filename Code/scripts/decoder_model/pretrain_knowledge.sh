@@ -2,8 +2,8 @@
 
 nohup deepspeed decoder_model/train/train.py \
     --deepspeed ./scripts/zero2.json \
-    --lm_model_path /home/Cognitive-Visual-Language-Mapper-main/opt-125m \
-    --clip_model_path /home/Cognitive-Visual-Language-Mapper-main/clip-vit-large-patch14-336 \
+    --lm_model_path facebook/opt-1.3b \
+    --clip_model_path openai/clip-vit-large-patch14-336 \
     --data_path playground/knowledge_data/Wikipedia_2M.json \
     --image_folder playground/knowledge_data/wikipedia_images_2m \
     --triple_data_path playground/knowledge_data/wikipedia_images_2m_triple.json \

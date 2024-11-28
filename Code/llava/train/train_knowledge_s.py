@@ -67,6 +67,7 @@ class ModelArguments:
 @dataclass
 class DataArguments:
     data_path: str = field(default=None, metadata={"help": "Path to the training data."})
+    triple_vkpair_data_path: Optional[str] = field(default=None, metadata={"help": "Path to the vkpair triples data."})
     triple_data_path: Optional[str] = field(default=None, metadata={"help": "Path to the triples data."})
     scka_triple_path: Optional[str] = field(default=None, metadata={"help": "Path to the scka triples data."})
     lazy_preprocess: bool = False
@@ -651,6 +652,7 @@ class LazySupervisedDataset(Dataset):
         list_data_dict = json.load(open(data_path, "r"))
         self.triple_data = json.load(open(data_args.triple_data_path, "r"))
         self.scka_triple_data = json.load(open(data_args.triple_data_path, "r"))
+        self.vkpair_data = json.load(open(data_args.triple_data_path, "r"))
         self.tokenizer = tokenizer
         self.opt_tokenizer = opt_tokenizer
         self.list_data_dict = list_data_dict
@@ -753,9 +755,12 @@ class LazySupervisedDataset(Dataset):
                              labels=data_dict["labels"][0])
 
         triples = self.triple_data.get(sources['image'], [])
+        vkpairs_triples = self.vkpair_data_data.get(sources['image'], [])
 
         scka_triples = self.scka_triple_data.get(sources['image'], [])
-        scka_triples = triples[:20]  # Take up to 20 triples
+        scka_triples = scka_triples[:30]  # Take up to 20 triples
+        vkpairs_triples = vkpairs_triples[:30]
+
         qformer_prompt = self.list_data_dict[i]["conversations"][0]["value"].replace("<image><k-query><k-query>\n", "")
 
         qformer_input_ids = qformer_tokenizer(qformer_prompt, return_tensors="pt").input_ids.squeeze(dim=0)
@@ -775,6 +780,8 @@ class LazySupervisedDataset(Dataset):
             data_dict['selected_triples'] = selected_triples
         if scka_triples:
             data_dict['scka_triples'] = scka_triples
+        if vkpairs_triples:
+            data_dict['vkpair_triples'] = vkpair_triples
         #
         #triples
         # triple_text = "\n".join(selected_triples)
@@ -1107,7 +1114,6 @@ def train():
 
     for epoch in range(training_args.num_train_epochs):
         trainer.train()
-
         # Compute terminal rewards and update policy
         for data in train_dataset:
             visual_features = adaptive_kg.encode_images(data.get('image'))

@@ -2,14 +2,14 @@
 
 nohup deepspeed llava/train/train_mem.py \
     --deepspeed ./scripts/zero2.json \
-    --model_name_or_path /home/Cognitive-Visual-Language-Mapper-main/llava_vicuna-13b-v1.5 \
+    --model_name_or_path lmsys/vicuna-7b-v1.5 \
     --version plain \
     --data_path playground/knowledge_data/Wikipedia_2M.json \
     --triple_data_path playground/knowledge_data/wikipedia_images_2m_triple.json \
     --pretrain_mm_mlp_adapter llava-v1.5-mlp2x-336px-pretrain-vicuna-13b-v1.5/mm_projector.bin \
     --pretrain_opt_adapter ./checkpoints/opt-pretrain/checkpoint-1000/pytorch_model.bin \
     --image_folder / \
-    --vision_tower /home/Cognitive-Visual-Language-Mapper-main/clip-vit-large-patch14-336 \
+    --vision_tower openai/clip-vit-large-patch14-336 \
     --mm_projector_type mlp2x_gelu \
     --mm_vision_select_layer -2 \
     --mm_use_im_start_end False \

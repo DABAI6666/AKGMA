@@ -6,7 +6,7 @@ SPLIT="mscoco_val"
 
 # Run the model caption loader with the updated arguments for MSCOCO
 python -m llava.eval.model_caption_loader \
-      --model-base lmsys/vicuna-13b-v1.5 \
+      --model-base lmsys/vicuna-7b-v1.5 \
       --model-path checkpoints/$CKPT/checkpoint-$STEP \
       --question-file ./playground/image_caption/eval/$SPLIT.jsonl \
       --image-folder / \

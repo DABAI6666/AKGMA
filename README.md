@@ -23,7 +23,7 @@ export PYTHONPATH=path_to_current_dir
 
 
 
-#### Training EKA with LLMs (Optional)
+#### Training EKA with LLMs 
 
 Replace `pretrain_opt_adapter` with the save path of your pretrained EKA.
 
@@ -32,7 +32,7 @@ bash scripts/decoder_model/pretrain_knowledge.sh
 ```
 
 
-#### Fine-tune EKA on the Knowledge Data with LLM
+#### Fine-tune EKA on the Knowledge Data with LLM (Optional)
 Change the attribute `pretrain_knowledge_params_path` to the path where the parameters extracted in the previous stage are stored.
 
 ``` shell
@@ -40,7 +40,6 @@ bash scripts/knowledge/pretrain.sh
 ```
 
 
-Besides, after completing the training, you can use the [code](LLaVA/checkpoints/scripts/get_non_lora_trainables.py) to extract both trainable non-LoRA parameters and LoRA parameters from the checkpoints.
 
 #### Fine-tune EKA and SCKA on the MsCOCO
 
@@ -48,7 +47,7 @@ Finally, we used a two-stage training method when fine-tuning FKA.
 
 ``` shell
 
-bash scripts/knowledge_ic/image_caption_stage2.sh
+bash scripts/knowledge_ic/image_caption_ft.sh
 ```
 
 
